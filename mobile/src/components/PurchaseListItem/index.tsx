@@ -23,7 +23,7 @@ interface Props{
 export const PurchaseListItem: FunctionComponent<Props> = ({navigation,purchaseData,purchaseId}) => {
 
 return (
-    <PurchaseListItemContainer onPress={()=> navigation.navigate("Purchases",{screen:"PurchaseDetails"})}>
+    <PurchaseListItemContainer onPress={()=> navigation.navigate("Purchases",{screen:"PurchaseDetails", params:{purchaseId:""}})}>
       <Title> DogChow - 10kgs </Title>
       <Value>R$ 50,99</Value>
       <TextWrapper>

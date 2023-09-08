@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-import { Text, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { RFPercentage, RFValue, } from "react-native-responsive-fontsize";
 import { Dimensions } from 'react-native';
 import { Feather } from "@expo/vector-icons";
@@ -38,7 +38,8 @@ justify-content: space-between;
 align-items: center;
 gap: ${RFValue(8)}px;
 `
-export const NewPurchaseButton = styled.TouchableOpacity`
+type TouchableOpacityType = typeof TouchableOpacity
+export const NewPurchaseButton:TouchableOpacityType = styled.TouchableOpacity`
 display: flex;
 flex-direction: row;
 align-items: center;
@@ -60,14 +61,14 @@ export const Icon: IconType = styled(Feather)`
 font-weight: bold;
 `
 type ViewProps = typeof View
+
 export const ContentView:ViewProps = styled.View`
-position:relative;
-z-index:10;
+/* position:relative; */
 width:100%;
 display:flex;
 flex-direction: column;
-margin-top:${RFPercentage(-10)}px;
-/* gap:${RFValue(16)}px; */
+/* margin-top:${RFPercentage(-10)}px; */
+gap:${RFValue(8)}px;
 `
 
 type ScrollViewType = typeof ScrollView
@@ -77,14 +78,16 @@ export const InfoBoxScroller: ScrollViewType = styled.ScrollView.attrs({
     contentContainerStyle: { paddingHorizontal: 54, },
 
 })`
-/* position:absolute; */
+position:relative;
+flex-grow:0;
 z-index:10;
 width:100%;
 display:flex;
-/* margin-top:${RFPercentage(-10)}px; */
+margin-top:${RFPercentage(-10)}px;
 gap:${RFValue(16)}px;
 `
 export const PurchasesListWrapper = styled.View`
+flex-grow: 1;
 display: flex;
 flex-direction: column;
 justify-content: center;
@@ -111,8 +114,7 @@ export const PurchasesList:ScrollViewType = styled.ScrollView.attrs({
     alwaysBounceVertical:false,
     contentContainerStyle: { paddingHorizontal: 10},
 })`
-height:75%;
-/* background-color:red; */
+height:60%;
 display:flex;
 
 `

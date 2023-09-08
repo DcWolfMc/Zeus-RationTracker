@@ -2,7 +2,7 @@ import styled from "styled-components/native";
 import { Text,TouchableOpacity } from "react-native";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { Feather } from "@expo/vector-icons";
-type IconType = typeof Feather
+
 type TouchableOpacityType = typeof TouchableOpacity
 export const PurchaseListItemContainer:TouchableOpacityType = styled.TouchableOpacity`
 margin-bottom: ${RFValue(8)}px;
@@ -27,6 +27,7 @@ justify-content: center;
 align-items: center;
 gap: ${RFValue(8)}px;
 `
+type IconType = typeof Feather
 export const Icon: IconType = styled(Feather)`
 font-weight: bold;
 `

@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from "react";
-import { View, Image, Dimensions } from "react-native";
+import { Alert, Modal, StyleSheet, Text, Pressable, View, Image, Dimensions } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../Routes";
@@ -22,7 +22,6 @@ import {
 import { defaultTheme } from "../../global/styles/theme";
 import { IconButton } from "../../components/IconButton";
 import { InfoBox } from "../../components/InfoBox";
-import Carousel from "react-native-snap-carousel";
 import { PurchaseListItem } from "../../components/PurchaseListItem";
 import { useNavigation } from '@react-navigation/native';
 interface OverviewScreenProps {
@@ -33,18 +32,20 @@ export const OverviewScreen: FunctionComponent<OverviewScreenProps> = ({
   navigation,
 }) => {
   const windowWidth = Dimensions.get("window").width;
+  const [modalVisible, setModalVisible] = useState(false);
   return (
     <Container>
       <Header>
         <Logo source={require("../../../assets/logo.png")} />
         <HeaderButtonWrapper>
-          <NewPurchaseButton>
+          <NewPurchaseButton onPress={()=> setModalVisible(true)}>
             <NewPurchaseText textColor={"yellow"}>Nova Compra</NewPurchaseText>
             <Icon name="plus" size={20} color={defaultTheme.colors.gray_300} />
           </NewPurchaseButton>
           {/* <IconButton icon={"settings"} iconColor={defaultTheme.colors.yellow_300} iconSize={40}/> */}
         </HeaderButtonWrapper>
       </Header>
+      <View>
       <ContentView>
         <InfoBoxScroller>
           <InfoBox />
@@ -56,18 +57,100 @@ export const OverviewScreen: FunctionComponent<OverviewScreenProps> = ({
             <PurchasesListHeaderText>Compras</PurchasesListHeaderText>
             <PurchasesListHeaderText>5 Itens</PurchasesListHeaderText>
           </PurchasesListHeader>
-          <PurchasesList>
+          <PurchasesList style={{flexGrow:1}}>
             <PurchaseListItem navigation={navigation} purchaseId="" />
             
             <PurchaseListItem navigation={navigation} purchaseId="" />
             
             <PurchaseListItem navigation={navigation} purchaseId="" />
             
+            <PurchaseListItem navigation={navigation} purchaseId="" />
+
+            <PurchaseListItem navigation={navigation} purchaseId="" />
+            
+            <PurchaseListItem navigation={navigation} purchaseId="" />
+            
+            <PurchaseListItem navigation={navigation} purchaseId="" />
+            
+            <PurchaseListItem navigation={navigation} purchaseId="" />
+            
+            <PurchaseListItem navigation={navigation} purchaseId="" />
+
             <PurchaseListItem navigation={navigation} purchaseId="" />
             
           </PurchasesList>
         </PurchasesListWrapper>
         </ContentView>
+        </View>
+        <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.viewModal}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Hello World!</Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}>
+              <Text style={styles.textStyle}>Hide Modal</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
     </Container>
   );
 };
+const styles = StyleSheet.create({
+  centeredView: {
+    backgroundColor:"#000",
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  viewModal: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'flex-end',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: '#F194FF',
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+});
