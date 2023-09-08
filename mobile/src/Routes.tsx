@@ -6,19 +6,21 @@ import {
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { purchaseData } from "./@types/purchaseData";
 import { OverviewScreen } from "./screens/overviewScreen";
+import { PurchaseDetailsScreen } from "./screens/purchaseDetailsScreen";
+
 
 /*Tipo da RAIZ de navegação */
 export type RootStackParamList = {
   Overview: undefined;
   //Config: undefined
   //NewPurchase: undefined
-  //Purchases: NavigatorScreenParams<PurchaseStackParamList>
+  Purchases: NavigatorScreenParams<PurchaseStackParamList>
 };
 
 /*Tipo do Produto de navegação */
 
 export type PurchaseStackParamList = {
-  PurchaseDetails: { purchaseId: string; purchaseData: purchaseData };
+  PurchaseDetails: { purchaseId: string; };
   PurchaseEdit: { purchaseId: string; purchaseData: purchaseData };
 };
 
@@ -26,17 +28,17 @@ const Stack = createNativeStackNavigator<
   RootStackParamList & PurchaseStackParamList
 >();
 
-// function PurchaseStack() {
-//   return(
-//     <Stack.Navigator initialRouteName='PurchaseDetails'  screenOptions={{ headerShown: false }}>
+function PurchaseStack() {
+  return(
+    <Stack.Navigator initialRouteName='PurchaseDetails'  screenOptions={{ headerShown: false }}>
 
-//       <Stack.Screen name='PurchaseDetails' component={}/>
-//       <Stack.Screen name='PurchaseEdit' component={}/>
+      <Stack.Screen name='PurchaseDetails' component={PurchaseDetailsScreen}/>
+      {/* <Stack.Screen name='PurchaseEdit' component={}/> */}
 
-//     </Stack.Navigator>
+    </Stack.Navigator>
 
-//   )
-// }
+  )
+}
 
 export default function Routes() {
   return (
@@ -48,7 +50,7 @@ export default function Routes() {
         <Stack.Screen name="Overview" component={OverviewScreen} />
         {/* <Stack.Screen name="Config" component={ClientProfileScreen} /> */}
         {/* <Stack.Screen name="NewPurchase" component={LoggedOutScreen} /> */}
-        {/* <Stack.Screen name="Purchases" component={PurchaseStack} /> */}
+        <Stack.Screen name="Purchases" component={PurchaseStack} />
       </Stack.Navigator>
     </NavigationContainer>
   );

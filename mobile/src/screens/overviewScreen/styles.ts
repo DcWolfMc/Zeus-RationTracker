@@ -1,15 +1,15 @@
 import styled from "styled-components/native";
-import { Text } from "react-native";
+import { Text, View } from "react-native";
 import { RFPercentage, RFValue, } from "react-native-responsive-fontsize";
 import { Dimensions } from 'react-native';
 import { Feather } from "@expo/vector-icons";
 import { ScrollView } from "react-native-gesture-handler";
-import Carousel, {CarouselProps, CarouselProperties} from "react-native-snap-carousel";
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 type IconType = typeof Feather
+
 export const Container = styled.SafeAreaView`
 background-color: ${props => props.theme.colors.gray_300};
 flex: 1;
@@ -59,30 +59,61 @@ color: ${props => props.theme.colors.gray_300};
 export const Icon: IconType = styled(Feather)`
 font-weight: bold;
 `
+type ViewProps = typeof View
+export const ContentView:ViewProps = styled.View`
+position:relative;
+z-index:10;
+width:100%;
+display:flex;
+flex-direction: column;
+margin-top:${RFPercentage(-10)}px;
+/* gap:${RFValue(16)}px; */
+`
+
 type ScrollViewType = typeof ScrollView
 
 export const InfoBoxScroller: ScrollViewType = styled.ScrollView.attrs({
     horizontal: true,
-    showsHorizontalScrollIndicator: false,
     contentContainerStyle: { paddingHorizontal: 54, },
 
 })`
+/* position:absolute; */
+z-index:10;
 width:100%;
 display:flex;
-position:absolute;
-margin-top:${RFPercentage(-10)}px;
+/* margin-top:${RFPercentage(-10)}px; */
 gap:${RFValue(16)}px;
 `
+export const PurchasesListWrapper = styled.View`
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: start;
+gap: ${RFValue(16)}px;
+`
+export const PurchasesListHeader = styled.View`
 
-export const InfoBoxScroller2 = styled(Carousel).attrs({
-    showHorizontalScrollIndicator: true,
-})`
-width:100%;
-position:absolute;
-margin-top:${RFPercentage(-10)}px;
+padding: ${RFValue(8)}px ${RFValue(16)}px;
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+align-items: center;
+
 `
 
-export const PurchasesList:ScrollViewType = styled.ScrollView`
+export const PurchasesListHeaderText = styled.Text`
+font-size: ${RFValue(20)}px;
+font-weight: 400;
+color: ${props=>props.theme.colors.gray_600};
+
+`
+export const PurchasesList:ScrollViewType = styled.ScrollView.attrs({
+    alwaysBounceVertical:false,
+    contentContainerStyle: { paddingHorizontal: 10},
+})`
+height:75%;
+/* background-color:red; */
+display:flex;
 
 `
 
