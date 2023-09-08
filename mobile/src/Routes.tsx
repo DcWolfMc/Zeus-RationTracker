@@ -5,11 +5,11 @@ import {
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { purchaseData } from "./@types/purchaseData";
-import { OverviewScreen } from "./screens/overviewScreen";
-import { PurchaseDetailsScreen } from "./screens/purchaseDetailsScreen";
+import { OverviewScreen } from "./screens/OverviewScreen";
+import { PurchaseDetailsScreen } from "./screens/PurchaseDetailsScreen";
 import { defaultTheme } from "./global/styles/theme";
 import { getContrast } from "polished";
-import { PurchaseEditScreen } from "./screens/purchaseEditScreen";
+import { PurchaseEditScreen } from "./screens/PurchaseEditScreen";
 
 /*Tipo da RAIZ de navegação */
 export type RootStackParamList = {

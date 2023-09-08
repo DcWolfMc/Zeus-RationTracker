@@ -24,6 +24,7 @@ import { IconButton } from "../../components/IconButton";
 import { InfoBox } from "../../components/InfoBox";
 import { PurchaseListItem } from "../../components/PurchaseListItem";
 import { useNavigation } from '@react-navigation/native';
+import { NewPurchaseModal } from "../../components/NewPurchaseModal";
 interface OverviewScreenProps {
   navigation: NativeStackNavigationProp<RootStackParamList, "Overview">;
 }
@@ -33,6 +34,10 @@ export const OverviewScreen: FunctionComponent<OverviewScreenProps> = ({
 }) => {
   const windowWidth = Dimensions.get("window").width;
   const [modalVisible, setModalVisible] = useState(false);
+
+  function handleModal() {
+    setModalVisible(false)
+  }
   return (
     <Container>
       <Header>
@@ -82,7 +87,7 @@ export const OverviewScreen: FunctionComponent<OverviewScreenProps> = ({
         </PurchasesListWrapper>
         </ContentView>
         </View>
-        <Modal
+        {/* <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}
@@ -100,57 +105,58 @@ export const OverviewScreen: FunctionComponent<OverviewScreenProps> = ({
             </Pressable>
           </View>
         </View>
-      </Modal>
+      </Modal> */}
+      <NewPurchaseModal modalVisible setModalVisible={setModalVisible} handleModal={handleModal}/>
     </Container>
   );
 };
-const styles = StyleSheet.create({
-  centeredView: {
-    backgroundColor:"#000",
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-  viewModal: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'flex-end',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-  },
-  buttonOpen: {
-    backgroundColor: '#F194FF',
-  },
-  buttonClose: {
-    backgroundColor: '#2196F3',
-  },
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
-  },
-});
+// const styles = StyleSheet.create({
+//   centeredView: {
+//     backgroundColor:"#000",
+//     flex: 1,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     marginTop: 22,
+//   },
+//   viewModal: {
+//     flex: 1,
+//     justifyContent: 'flex-end',
+//     alignItems: 'center',
+//     marginTop: 22,
+//   },
+//   modalView: {
+//     margin: 20,
+//     backgroundColor: 'white',
+//     borderRadius: 20,
+//     padding: 35,
+//     alignItems: 'flex-end',
+//     shadowColor: '#000',
+//     shadowOffset: {
+//       width: 0,
+//       height: 2,
+//     },
+//     shadowOpacity: 0.25,
+//     shadowRadius: 4,
+//     elevation: 5,
+//   },
+//   button: {
+//     borderRadius: 20,
+//     padding: 10,
+//     elevation: 2,
+//   },
+//   buttonOpen: {
+//     backgroundColor: '#F194FF',
+//   },
+//   buttonClose: {
+//     backgroundColor: '#2196F3',
+//   },
+//   textStyle: {
+//     color: 'white',
+//     fontWeight: 'bold',
+//     textAlign: 'center',
+//   },
+//   modalText: {
+//     marginBottom: 15,
+//     textAlign: 'center',
+//   },
+// });
