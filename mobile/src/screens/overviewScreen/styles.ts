@@ -1,9 +1,10 @@
 import styled from "styled-components/native";
 import { Text } from "react-native";
 import { RFPercentage, RFValue, } from "react-native-responsive-fontsize";
-import {Dimensions} from 'react-native';
+import { Dimensions } from 'react-native';
 import { Feather } from "@expo/vector-icons";
 import { ScrollView } from "react-native-gesture-handler";
+import Carousel, {CarouselProps, CarouselProperties} from "react-native-snap-carousel";
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -23,7 +24,7 @@ flex-direction: row;
 padding:${RFValue(24)}px ${RFValue(16)}px;
 justify-content: space-between;
 
-background-color: ${props=>props.theme.colors.green_300};
+background-color: ${props => props.theme.colors.green_300};
 `
 export const Logo = styled.Image`
 `
@@ -44,7 +45,7 @@ align-items: center;
 justify-content: center;
 gap: ${RFValue(8)}px;
 padding: ${RFValue(8)}px ${RFValue(20)}px;
-background-color: ${props=>props.theme.colors.yellow_300};
+background-color: ${props => props.theme.colors.yellow_300};
 //border-width: 3px;
 border-radius: 8px;
 
@@ -53,31 +54,47 @@ export const NewPurchaseText = styled.Text`
 font-size: ${RFValue(16)}px;
 font-weight: bold;
 font-family: "Roboto";
-color: ${props=>props.theme.colors.gray_300};
+color: ${props => props.theme.colors.gray_300};
 `
-export const Icon:IconType = styled(Feather)`
+export const Icon: IconType = styled(Feather)`
 font-weight: bold;
 `
 type ScrollViewType = typeof ScrollView
 
-export const InfoBoxScroller:ScrollViewType = styled.ScrollView`
-display: flex;
-padding-left: ${RFValue(52)}px;
-flex-direction: row;
-gap: ${RFValue(16)}px;
+export const InfoBoxScroller: ScrollViewType = styled.ScrollView.attrs({
+    horizontal: true,
+    showsHorizontalScrollIndicator: false,
+    contentContainerStyle: { paddingHorizontal: 54, },
 
-background-color: blue;
+})`
+width:100%;
+display:flex;
+position:absolute;
+margin-top:${RFPercentage(-10)}px;
+gap:${RFValue(16)}px;
 `
 
-const TEXT_COLORS={
+export const InfoBoxScroller2 = styled(Carousel).attrs({
+    showHorizontalScrollIndicator: true,
+})`
+width:100%;
+position:absolute;
+margin-top:${RFPercentage(-10)}px;
+`
+
+export const PurchasesList:ScrollViewType = styled.ScrollView`
+
+`
+
+const TEXT_COLORS = {
     green: 'green_300',
     yellow: 'yellow_300',
-}as const
+} as const
 
 interface SimpleTextProps {
     textColor: keyof typeof TEXT_COLORS;
 }
 
-export const SimpleText = styled(Text)<SimpleTextProps>`
-color: ${props=>props.theme.colors[TEXT_COLORS[props.textColor]]};
+export const SimpleText = styled(Text) <SimpleTextProps>`
+color: ${props => props.theme.colors[TEXT_COLORS[props.textColor]]};
 `

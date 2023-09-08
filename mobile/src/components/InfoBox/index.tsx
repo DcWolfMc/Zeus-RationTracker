@@ -1,5 +1,6 @@
 import { View } from "react-native";
 import {InfoBoxContainer, BottonText, MiddleText,TopText, TopTextHighlight,MBTextWrapper,TopTextWrapper } from"./styles"
+import React from "react";
 export const InfoBox=()=>{
     return(<InfoBoxContainer>
         <TopTextWrapper>

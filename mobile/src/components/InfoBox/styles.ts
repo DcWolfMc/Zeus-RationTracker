@@ -5,6 +5,7 @@ import { Feather } from "@expo/vector-icons";
 
 export const InfoBoxContainer = styled.View`
 max-width: ${RFValue(252)}px;
+margin-left: ${RFValue(16)}px;
 display: flex;
 flex-direction: column;
 align-items: start;
