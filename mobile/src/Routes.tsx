@@ -4,12 +4,13 @@ import {
   NavigatorScreenParams,
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { purchaseData } from "./@types/purchaseData";
+import { PurchaseData } from "./@types/purchaseData";
 import { OverviewScreen } from "./screens/OverviewScreen";
 import { PurchaseDetailsScreen } from "./screens/PurchaseDetailsScreen";
 import { defaultTheme } from "./global/styles/theme";
 import { getContrast } from "polished";
 import { PurchaseEditScreen } from "./screens/PurchaseEditScreen";
+import { Platform, PlatformOSType } from "react-native";
 
 /*Tipo da RAIZ de navegação */
 export type RootStackParamList = {
@@ -23,7 +24,7 @@ export type RootStackParamList = {
 
 export type PurchaseStackParamList = {
   PurchaseDetails: { purchaseId: string };
-  PurchaseEdit: { purchaseId: string; purchaseData: purchaseData };
+  PurchaseEdit: { purchaseId: string; purchaseData: PurchaseData };
 };
 
 const Stack = createNativeStackNavigator<
@@ -34,19 +35,30 @@ function PurchaseStack() {
   return (
     <Stack.Navigator
       initialRouteName="PurchaseDetails"
-      screenOptions={{
-        headerShown: true,
-        statusBarStyle:
-          getContrast(defaultTheme.colors.gray_200, "#FFF") < 3.5
-            ? "dark"
-            : "light",
-        headerShadowVisible: false,
-        title: "",
-        headerStyle: { backgroundColor: defaultTheme.colors.gray_300 },
-      }}
+      screenOptions={
+        Platform.OS === "ios"
+          ? {
+              headerShown: false,
+              headerShadowVisible: false,
+              headerBackVisible: true,
+              headerBackTitleVisible: false,
+              headerTitle:"",
+              headerStyle: { backgroundColor: defaultTheme.colors.gray_300 },
+            }
+          : {
+              statusBarStyle:
+                getContrast(defaultTheme.colors.gray_200, "#FFF") < 3.5
+                  ? "dark"
+                  : "light",
+              headerShown: true,
+              headerShadowVisible: false,
+              title: "",
+              headerStyle: { backgroundColor: defaultTheme.colors.gray_300 },
+            }
+      }
     >
-      <Stack.Screen name="PurchaseDetails" component={PurchaseDetailsScreen} />
-      <Stack.Screen name='PurchaseEdit' component={PurchaseEditScreen}/>
+      <Stack.Screen name="PurchaseDetails" component={PurchaseDetailsScreen}/>
+      <Stack.Screen name="PurchaseEdit" component={PurchaseEditScreen} options={Platform.OS=="ios"&&{headerShown:true}}/>
     </Stack.Navigator>
   );
 }
@@ -56,10 +68,19 @@ export default function Routes() {
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="Overview"
-        screenOptions={{ headerShown: false, statusBarStyle:
-          getContrast(defaultTheme.colors.gray_200, "#FFF") < 3.5
-            ? "dark"
-            : "light",}}
+        screenOptions={
+          Platform.OS === "ios"
+            ? {
+                headerShown: false,
+              }
+            : {
+                headerShown: false,
+                statusBarStyle:
+                  getContrast(defaultTheme.colors.gray_200, "#FFF") < 3.5
+                    ? "dark"
+                    : "light",
+              }
+        }
       >
         <Stack.Screen name="Overview" component={OverviewScreen} />
         {/* <Stack.Screen name="Config" component={} /> */}

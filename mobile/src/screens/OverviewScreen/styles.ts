@@ -36,7 +36,7 @@ display: flex;
 flex-direction: row;
 justify-content: space-between;
 align-items: center;
-gap: ${RFValue(8)}px;
+//gap: ${RFValue(8)}px;
 `
 type TouchableOpacityType = typeof TouchableOpacity
 export const NewPurchaseButton:TouchableOpacityType = styled.TouchableOpacity`
@@ -97,6 +97,7 @@ gap: ${RFValue(16)}px;
 export const PurchasesListHeader = styled.View`
 
 padding: ${RFValue(8)}px ${RFValue(16)}px;
+width: 100%;
 display: flex;
 flex-direction: row;
 justify-content: space-between;
@@ -114,6 +115,7 @@ export const PurchasesList:ScrollViewType = styled.ScrollView.attrs({
     alwaysBounceVertical:false,
     contentContainerStyle: { paddingHorizontal: 10},
 })`
+width:100%;
 height:60%;
 display:flex;
 

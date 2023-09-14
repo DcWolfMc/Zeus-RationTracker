@@ -9,10 +9,12 @@ const purchaseSchema = mongoose.Schema(
     ration_weight: {
       type: Number,
       required: [true, "Produto precisa de peso em quilogramas (Kg)"],
+      min:1,
     },
     quantity: {
       type: Number,
       required: [true, "Produto deve ter ao menos 1 em quantidade"],
+      min:1,
       default: 1,
     },
     ration_price: {
@@ -22,7 +24,6 @@ const purchaseSchema = mongoose.Schema(
     date_of_purchase: {
       type: Date,
       required: [true, "Produto deve ter uma data de compra"],
-      default: Date.now(),
     },
     observations: {
       type: String,

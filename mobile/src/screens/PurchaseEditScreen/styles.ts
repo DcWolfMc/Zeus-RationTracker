@@ -1,17 +1,17 @@
 import styled from "styled-components/native";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { KeyboardAvoidingView, Platform, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { Dimensions } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { IconButton } from "../../components/IconButton";
 import { Divider, TextInput } from "react-native-paper";
 import { defaultTheme } from "../../global/styles/theme";
-
+import CurrencyInput from 'react-native-currency-input';
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
+type ContainerType = typeof KeyboardAvoidingView
 
-
-export const Container = styled.SafeAreaView`
+export const Container:ContainerType = styled.KeyboardAvoidingView`
   background-color: ${(props) => props.theme.colors.gray_300};
   flex: 1;
   display: flex;
@@ -50,13 +50,32 @@ export const InputsWrapper = styled.View`
   gap: ${RFValue(24)}px;
 `;
 export const InputsHorizontalWrapper = styled.View`
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   gap: ${RFValue(12)}px;
 `;
 type TextInputType = typeof TextInput;
+type CurrencyInputType = typeof CurrencyInput
 export const EditTextInput: TextInputType = styled(TextInput).attrs({
+  mode: "outlined",
+  textColor: defaultTheme.colors.gray_700,
+  outlineColor: defaultTheme.colors.gray_600,
+})`
+  width: 100%;
+  background-color: ${(props) => props.theme.colors.gray_400};
+`;
+export const EditMultilineTextInput: TextInputType = styled(TextInput).attrs({
+  mode: "outlined",
+  textColor: defaultTheme.colors.gray_700,
+  outlineColor: defaultTheme.colors.gray_600,
+})`
+${Platform.OS==="ios"&&{height: RFValue(90)}}
+  width: 100%;
+  background-color: ${(props) => props.theme.colors.gray_400};
+`;
+export const CurrencyInputText: CurrencyInputType = styled(CurrencyInput).attrs({
   mode: "outlined",
   textColor: defaultTheme.colors.gray_700,
   outlineColor: defaultTheme.colors.gray_600,
@@ -88,12 +107,22 @@ const BaseButton: ButtonType = styled.TouchableOpacity`
   justify-content: center;
   border-radius: 8px;
 `;
-export const OutlinedButton = styled(BaseButton)`
+export const OutlinedButton:ButtonType = styled(BaseButton)`
   border-color: ${(props) => props.theme.colors.gray_600};
   border-width: 2px;
 `;
 
-export const FillButton = styled(BaseButton)`
+export const DatePickerButton:ButtonType = styled(BaseButton)`
+background-color: ${(props) => props.theme.colors.yellow_300};
+padding: ${RFValue(8)}px ${RFValue(16)}px;
+`
+export const DatePickerText = styled(BaseText)`
+font-weight: 400;
+font-size: ${RFValue(16)}px;
+color: ${(props) => props.theme.colors.gray_300};
+`
+
+export const FillButton:ButtonType = styled(BaseButton)`
   background-color: ${(props) => props.theme.colors.green_300};
 `;
 

@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { Dimensions } from "react-native";
 import { Feather } from "@expo/vector-icons";
@@ -119,3 +119,59 @@ export const ItemDivider = styled(Divider)`
   border-width: 0.75px;
   opacity: 0.25;
 `;
+export const ModalContainer = styled.View` 
+  flex:1;
+  display: "flex";
+  flex-direction: column;
+  justify-content: center;
+  background-color: ${props=>props.theme.colors.gray_800}aa;
+  `;
+  export const ModalView = styled.View`
+  margin: ${RFValue(16)}px ${RFValue(8)}px;
+  padding: ${RFValue(32)}px ${RFValue(16)}px;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: ${RFValue(32)}px;
+
+  border-radius: 8px;
+  background-color: ${props=>props.theme.colors.gray_200};
+  `
+  export const ModalText = styled(BaseText)`
+  font-size: ${RFValue(20)}px;
+  font-weight: bold;
+  color: ${props=>props.theme.colors.gray_800};
+  `
+  type ButtonType = typeof TouchableOpacity;
+
+  const BaseButton: ButtonType = styled.TouchableOpacity`
+    height: ${RFValue(50)}px;
+    min-width: ${RFValue(120)}px;
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+  `;
+  export const OutlinedButton:ButtonType = styled(BaseButton)`
+    border-color: ${(props) => props.theme.colors.gray_600};
+    border-width: 2px;
+  `;
+  
+  export const FillButton:ButtonType = styled(BaseButton)`
+    background-color: ${(props) => props.theme.colors.red_500};
+  `;
+  
+  export const OutlinedButtonText = styled(BaseText)`
+    font-weight: 500;
+    font-size: ${RFValue(16)}px;
+    color: ${(props) => props.theme.colors.gray_600};
+  `;
+  
+  export const FillButtonText = styled(BaseText)`
+    font-weight: 500;
+    font-size: ${RFValue(16)}px;
+    color: ${(props) => props.theme.colors.gray_200};
+  `;
+  

@@ -33,17 +33,17 @@ gap: ${RFValue(4)}px;
 const BaseText = styled.Text`
 font-size: ${RFValue(24)}px;
 font-weight: bold;
-text-align: center;
+
 `
 
 export const TopText = styled(BaseText)`
 font-weight: bold;
-font-size: ${RFValue(24)}px;
+font-size: ${RFValue(20)}px;
 color: ${props=>props.theme.colors.gray_700};
 `
 export const TopTextHighlight = styled(BaseText)`
 font-weight: bold;
-font-size: ${RFValue(24)}px;
+font-size: ${RFValue(20)}px;
 color: ${props=>props.theme.colors.green_300};
 `
 
