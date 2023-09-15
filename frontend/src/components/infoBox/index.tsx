@@ -1,26 +1,19 @@
-import { View } from "react-native";
-import {
-  InfoBoxContainer,
-  BottonText,
-  MiddleText,
-  TopText,
-  TopTextHighlight,
-  MBTextWrapper,
-  TopTextWrapper,
-} from "./styles";
-import React, { FunctionComponent } from "react";
+import { FunctionComponent } from "react";
 import { PurchaseData } from "../../@types/purchaseData";
-import { differenceInDays, format, formatISO, sub } from "date-fns";
-import { formatNumber } from "react-native-currency-input";
+import { SummaryCard, HeaderText, HeaderTextHighlight } from "./styles";
+import { differenceInDays, format, sub } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { MonthTotalValue } from "../MonthTotalValue";
-interface Props {
+
+interface InfoBoxProps {
   purchasesData: PurchaseData[];
-  monthsToSub: number;
+  monthsToSub?: number;
+  variant?: "green";
 }
-export const InfoBox: FunctionComponent<Props> = ({
-  purchasesData,
-  monthsToSub,
+export const InfoBox: FunctionComponent<InfoBoxProps> = ({
+  monthsToSub = 0,
+  purchasesData = [],
+  variant,
 }) => {
   const actualDate = new Date();
   const InfoBoxDate = sub(actualDate, { months: monthsToSub });
@@ -45,20 +38,20 @@ export const InfoBox: FunctionComponent<Props> = ({
     thisMonthData.length > 0 && new Date(thisMonthData[0].date_of_purchase);
 
   const monthTotal = thisMonthData.reduce(
-    (acc, item) => acc + item.ration_price*item.quantity,
+    (acc, item) => acc + item.ration_price * item.quantity,
     0
   );
 
   return (
-    <InfoBoxContainer>
-      <TopTextWrapper>
-        <TopText>Total no mês:</TopText>
-        <TopTextHighlight>{monthName()}</TopTextHighlight>
-      </TopTextWrapper>
-      <MBTextWrapper>
-      <MonthTotalValue monthTotal={monthTotal} />
+    <SummaryCard variant={variant}>
+      <header>
+        <HeaderText>Total no mês:</HeaderText>
+        <HeaderTextHighlight>{monthName()}</HeaderTextHighlight>
+      </header>
+      <footer>
+        <MonthTotalValue monthTotal={monthTotal}/>
         {lastPurchaseDateOfMonth ? (
-          <BottonText>
+          <span>
             Última compra{" "}
             {monthsToSub === 0
               ? `há ${differenceInDays(
@@ -72,11 +65,11 @@ export const InfoBox: FunctionComponent<Props> = ({
                     locale: ptBR,
                   }
                 )}`}
-          </BottonText>
+          </span>
         ) : (
-          <BottonText>Sem compras esse mês</BottonText>
+          <span>Sem compras esse mês</span>
         )}
-      </MBTextWrapper>
-    </InfoBoxContainer>
+      </footer>
+    </SummaryCard>
   );
 };

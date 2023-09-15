@@ -75,6 +75,10 @@ export const NewPurchaseModal: FunctionComponent<Props> = ({
   function handleFormatQuantity(text: string) {
     setQuantity(onlyNumbersMask(text));
   }
+  function handleFormatWeight(text:string) {
+    setWeight(weightMask(text))
+    
+  }
   function handleDatePicker(date: Date) {
     setDisplayDate(false);
     setDate(date);
@@ -228,7 +232,7 @@ export const NewPurchaseModal: FunctionComponent<Props> = ({
                   keyboardType="numeric"
                   inputMode="numeric"
                   value={weight}
-                  onChangeText={(text) => setWeight(text)}
+                  onChangeText={(text) => handleFormatWeight(text)}
                   right={
                     <TextInput.Affix
                       text="Kg"
@@ -273,7 +277,7 @@ export const NewPurchaseModal: FunctionComponent<Props> = ({
               >
                 <OutlinedButtonText>Cancelar</OutlinedButtonText>
               </OutlinedButton>
-              <FillButton onPress={() => handleNewPurchase()}>
+              <FillButton onPress={() => handleNewPurchase()} disabled={loading}>
                 {loading ? (
                   <ActivityIndicator
                     animating={true}

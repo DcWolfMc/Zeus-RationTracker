@@ -28,6 +28,11 @@ export function weightMask(text: string) {
   value=value.replace(/[^\w\s\][^,]/gi, '')
   return value
 }
+export function weightMaskToNumber(text: string) {
+  let value = text.toString();
+  value = value.replace(",", ".");
+  return value;
+}
 export function captalizeText(text:string) {
   text = text.charAt(0).toUpperCase() + text.slice(1);
   return text; 

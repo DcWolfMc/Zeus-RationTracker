@@ -55,19 +55,20 @@ export const PurchaseEditScreen: FunctionComponent<OverviewScreenProps> = ({
   const [place, setPlace] = useState<string>(purchaseData.place_of_purchase!="não definido"?purchaseData.place_of_purchase:"");
   const [brand, setBrand] = useState<string>(purchaseData.ration_brand!="não definido"?purchaseData.ration_brand:"");
   const [loading, setLoading] = useState<boolean>(false)
+
   function handleFormatPrice(number) {
     setPrice(currencyMask(number));
   }
   function handleFormatQuantity(text: string) {
     setQuantity(onlyNumbersMask(text));
   }
-  function handleDatePicker(date: Date) {
-    setDisplayDate(false);
-    setDate(date);
-  }
   function handleFormatWeight(text:string) {
     setWeight(weightMask(text))
     
+  }
+  function handleDatePicker(date: Date) {
+    setDisplayDate(false);
+    setDate(date);
   }
 
   async function handleEditPurchase() {
@@ -211,7 +212,7 @@ export const PurchaseEditScreen: FunctionComponent<OverviewScreenProps> = ({
           <OutlinedButton onPress={() => navigation.goBack()}>
             <OutlinedButtonText>Cancelar</OutlinedButtonText>
           </OutlinedButton>
-          <FillButton onPress={()=> handleEditPurchase()}>
+          <FillButton onPress={()=> handleEditPurchase()} disabled={loading}>
                 {loading ? (
                   <ActivityIndicator
                     animating={true}
