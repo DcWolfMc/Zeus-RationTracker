@@ -9,6 +9,9 @@ export const LayoutContainer = styled.div`
     //background: ${props =>props.theme["gray-800"]};
     //border-radius: 8px;
 
+    width: 100%;
     display: flex;
     flex-direction: column;
+    align-items: center;
+
 `

@@ -4,15 +4,16 @@ import { priceFormatter } from "../../utils/formatter";
 
 
 interface Props {
-  monthTotal: number;
+  totalValue: number;
+  variant?: "green"
 }
 
-export const MonthTotalValue: FunctionComponent<Props> = ({ monthTotal }) => {
-  const formattedMonthTotal = priceFormatter.format(monthTotal);
+export const InfoBoxTotalValue: FunctionComponent<Props> = ({ totalValue,variant }) => {
+  const formattedMonthTotal = priceFormatter.format(totalValue);
   const fontSize = useMemo(() => {
     // Defina um tamanho máximo para o valor antes de reduzir a fonte
     const maxFontSize = 32 // Tamanho máximo da fonte
-    const maxLength = 10; // Número máximo de dígitos antes de reduzir a fonte
+    const maxLength = 16; // Número máximo de dígitos antes de reduzir a fonte
 
     // Se o valor formatado tiver mais dígitos do que o máximo permitido, reduza a fonte
     if (formattedMonthTotal.length > maxLength) {
@@ -23,8 +24,8 @@ export const MonthTotalValue: FunctionComponent<Props> = ({ monthTotal }) => {
   }, [formattedMonthTotal]);
 
   return (
-    <Text style={{ fontSize }}>
-      R$ {formattedMonthTotal}
+    <Text variant={variant} style={{ fontSize }}>
+      {formattedMonthTotal}
     </Text>
   );
 };

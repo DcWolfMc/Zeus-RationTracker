@@ -5,7 +5,7 @@ import { Purchase } from "./models/purchaseModel.js";
 import purchaseRouter from "./routes/purchase.js"
 import cors from "cors";
 const app = Express();
-
+console.log("process.env.SERVER_URL",process.env.SERVER_URL);
 mongoose.connect(process.env.SERVER_URL);
 const db = mongoose.connection;
 

@@ -3,7 +3,7 @@ export interface PurchaseData {
   name: string;
   created_at: string
   date_of_purchase: string;
-  place_of_purchase?: string;
+  place_of_purchase: string;
   quantity: number
   ration_weight: number;
   ration_price: number;
