@@ -24,9 +24,12 @@ export function weightMask(text: string) {
   if (value.startsWith(",")) {
     value = value.slice(1);
   }
+  value = value.replace(/[^\w\s\][^,]/gi, "");
   value = value.replace(" ", "");
   value = value.replace("-", "");
-  value = value.replace(/[^\w\s\][^,]/gi, "");
+  value = value.replace(",,",",")
+  value = value.replace(/^[a-zA-Z]+$/,"")
+  
   return value;
 }
 export function weightMaskToNumber(text: string) {

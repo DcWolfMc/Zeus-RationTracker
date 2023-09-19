@@ -1,4 +1,5 @@
 import { FunctionComponent, useEffect, useState } from "react";
+import * as Dialog from "@radix-ui/react-dialog";
 import {
   PurchaseDetailsContainer,
   BottonText,
@@ -23,6 +24,8 @@ import {
   TrashButton,
   HeaderTextWrapper,
   ItemValueBold,
+  BackButton,
+  RowWrapper,
 } from "./styles";
 import { useNavigate, useParams } from "react-router-dom";
 import { format } from "date-fns";
@@ -31,19 +34,19 @@ import { ptBR } from "date-fns/locale";
 import { PurchaseData, templatePurchaseData } from "../../@types/purchaseData";
 import { captalizeText } from "../../utils/masks";
 import { priceFormatter } from "../../utils/formatter";
-import { NotePencil, Trash } from "phosphor-react";
+import { ArrowLeft, NotePencil, Trash } from "phosphor-react";
 import { defaultTheme } from "../../styles/themes/default";
-import { Alert, CircularProgress, Modal, Snackbar } from "@mui/material";
-import { SnackbarType } from "../../@types/snackbar";
+import { CircularProgress } from "@mui/material";
+import { toast } from "react-toastify";
+import { PurchaseFormModal } from "../../components/PurchaseFormModal";
 
 export const PurchaseDetails: FunctionComponent = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [purchaseData, setPurchaseData] = useState<PurchaseData>(templatePurchaseData);
   const [modalVisible, setModalVisible] = useState(false);
+  const [editModal, setEditModal] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(true);
-  const [snackbar, setSnackbar] = useState<SnackbarType>({open:false,type:"success"})
-  const [snackbarMessage, setSnackbarMessage] = useState<string>("")
   const dateText = format(
     new Date(purchaseData.date_of_purchase),
     "EEEE', dia 'dd' de 'MMMM' de ' yyyy",
@@ -63,67 +66,78 @@ export const PurchaseDetails: FunctionComponent = () => {
     }
     CallApiData();
   }, []);
-  function handleShowSnackbar(
-    message: string,
-    type: "error" | "warning" | "info" | "success"
-  ) {
-    setSnackbarMessage(message);
-    setSnackbar({ open: true, type: type });
-  }
-  function handleCloseSnackbar() {
-    setSnackbar((prev)=>{
-        return{...prev, open:false}
-    })
-    
-  }
   function handleModal() {
     setModalVisible(true);
   }
   function hideModal() {
     setModalVisible(false);
   }
-    async function handleDeletePurchase() {
-      setLoading(true);
-      if (!id) {
-        return null;
-      } else {
-        DeletePurchaseById(id)
-          .then(() => {
-            handleShowSnackbar("Compra deletada!", "success");
-            navigate("../");
-          })
-          .catch((error) => {
-            handleShowSnackbar("Não foi possível deletar a compra","error");
-            console.log("DeletePurchaseById: ", error.response.data);
-          })
-          .finally(() => {
-            setLoading(false);
-          });
-      }
+  async function handleDeletePurchase() {
+    setLoading(true);
+    if (!id) {
+      return null;
+    } else {
+      DeletePurchaseById(id)
+        .then(() => {
+          toast.success("Compra deletada!", {
+            position: "bottom-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            });
+          navigate("../");
+        })
+        .catch((error) => {
+          toast.error("Não foi possível deletar a compra", {
+            position: "bottom-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            });
+          console.log("DeletePurchaseById: ", error.response.data);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     }
+  }
   return (
     <PurchaseDetailsContainer>
       <PurchaseDetailsHeader>
-        <HeaderTextWrapper>
+        <RowWrapper>
+            <BackButton onClick={()=>navigate("/")}>
+                <ArrowLeft size={40}/>
+            </BackButton>
           {loading ? (
             <CircularProgress color="warning" />
           ) : (
-            <>
+            <HeaderTextWrapper>
               <TopText>{captalizeText(purchaseData.name)}</TopText>
               <MiddleText>R$ {priceFormatter.format(totalValue)}</MiddleText>
               <BottonText>{captalizeText(dateText)}</BottonText>
-            </>
+            </HeaderTextWrapper>
           )}
-        </HeaderTextWrapper>
+        </RowWrapper>
 
         <ButtonWrapper>
+          
+          <Dialog.Root open={editModal} onOpenChange={setEditModal}>
+          <Dialog.Trigger asChild>
           <EditButton
             children={<NotePencil size={24} color={defaultTheme.gray_200} />}
-            onClick={() => {
-              navigate("./edit");
-            }}
             disabled={loading}
           />
+          </Dialog.Trigger>
+            <PurchaseFormModal setOpenModal={setEditModal} purchaseData={purchaseData} type="edit"/>
+        </Dialog.Root>
           <TrashButton
             children={<Trash size={24} color={defaultTheme.gray_200} />}
             onClick={() => handleModal()}
@@ -139,7 +153,11 @@ export const PurchaseDetails: FunctionComponent = () => {
           <>
             <DetailsItemWrapper>
               <ItemTitle>Local de Compra</ItemTitle>
-              <ItemValue>{purchaseData.place_of_purchase}</ItemValue>
+              <ItemValue>
+                {purchaseData.place_of_purchase
+                  ? purchaseData.place_of_purchase
+                  : "-"}
+              </ItemValue>
             </DetailsItemWrapper>
             <ItemDivider />
             <DetailsItemWrapper>
@@ -161,7 +179,9 @@ export const PurchaseDetails: FunctionComponent = () => {
             <ItemDivider />
             <DetailsItemWrapper>
               <ItemTitle>Marca da ração</ItemTitle>
-              <ItemValue>{purchaseData.ration_brand}</ItemValue>
+              <ItemValue>
+                {purchaseData.ration_brand ? purchaseData.ration_brand : "-"}
+              </ItemValue>
             </DetailsItemWrapper>
             <ItemDivider />
             <DetailsItemWrapper>
@@ -173,30 +193,27 @@ export const PurchaseDetails: FunctionComponent = () => {
           </>
         )}
       </DetailsWrapper>
-      <ModalContainer open={modalVisible} onClose={hideModal} >
-
-          <ModalView>
-            <ModalText>Deletar Compra?</ModalText>
-            <ButtonWrapper>
-              <OutlinedButton onClick={() => hideModal()}>
-                <OutlinedButtonText>Cancelar</OutlinedButtonText>
-              </OutlinedButton>
-              <FillButton onClick={() => handleDeletePurchase()} disabled={loading}>
-                {loading ? (
-                  <CircularProgress color="warning"/>
-                ) : (
-                  <FillButtonText>Deletar</FillButtonText>
-                )}
-              </FillButton>
-            </ButtonWrapper>
-          </ModalView>
+      <ModalContainer open={modalVisible} onClose={hideModal}>
+        <ModalView>
+          <ModalText>Deletar Compra?</ModalText>
+          <ButtonWrapper>
+            <OutlinedButton onClick={() => hideModal()}>
+              <OutlinedButtonText>Cancelar</OutlinedButtonText>
+            </OutlinedButton>
+            <FillButton
+              onClick={() => handleDeletePurchase()}
+              disabled={loading}
+            >
+              {loading ? (
+                <CircularProgress color="warning" />
+              ) : (
+                <FillButtonText>Deletar</FillButtonText>
+              )}
+            </FillButton>
+          </ButtonWrapper>
+        </ModalView>
       </ModalContainer>
 
-      <Snackbar open={snackbar.open} autoHideDuration={3000} onClose={snackbar.type == "success"? ()=>{handleCloseSnackbar(); navigate("../");}:handleCloseSnackbar}>
-        <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
     </PurchaseDetailsContainer>
   );
 };

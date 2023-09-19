@@ -2,7 +2,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { HeaderContainer, HeaderContent, NewPurchaseButton } from "./styles";
 import logoImage from "../../assets/logo.svg"
 import { Plus } from "phosphor-react";
-import { NewPurchaseModal } from "../NewPurchaseModal";
+import { PurchaseFormModal } from "../PurchaseFormModal";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 export const Header = () => {
@@ -18,7 +18,7 @@ export const Header = () => {
               Nova Compra <Plus size={20} weight="bold"/>
             </NewPurchaseButton>
           </Dialog.Trigger>
-            <NewPurchaseModal setOpenModal={setOpenModal}/>
+            <PurchaseFormModal setOpenModal={setOpenModal}/>
         </Dialog.Root>
       </HeaderContent>
     </HeaderContainer>

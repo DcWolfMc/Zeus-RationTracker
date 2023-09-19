@@ -14,6 +14,7 @@ import {
 import { PurchaseData } from "../../@types/purchaseData";
 import { getPurchases } from "../../services/api";
 import { parseISO } from "date-fns";
+import { DashboardCharts } from "../../components/DashboardCharts";
 
 export const Dashboard = () => {
   const [purchases, setPurchases] = useState<PurchaseData[]>([]);
@@ -50,7 +51,12 @@ export const Dashboard = () => {
       <DashboardContent>
         <ChartListWrapper>
           <h1>Dashboard</h1>
-          <ChartList></ChartList>
+          <PurchaseListScroller>
+          <ChartList>
+            <DashboardCharts/>
+            <DashboardCharts/>
+          </ChartList>
+          </PurchaseListScroller>
         </ChartListWrapper>
         <PurchaseListWrapper>
           <h1>Compras</h1>

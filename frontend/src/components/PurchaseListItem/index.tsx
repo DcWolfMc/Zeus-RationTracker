@@ -40,7 +40,7 @@ export const PurchaseListItem: FunctionComponent<Props> = ({
       onClick={() => navigate(`/purchase/${purchaseId}`)}
     >
       <TitleWrapper>
-        <Title>{purchaseData?.name ? purchaseData.name : "Title"}</Title>
+        <Title>{purchaseData?.name ? purchaseData.name.length >20? purchaseData.name.substring(0,20)+"...":purchaseData.name : "Title"}</Title>
         <Quantity>x{purchaseData?.quantity}</Quantity>
       </TitleWrapper>
       <Value>
@@ -51,19 +51,14 @@ export const PurchaseListItem: FunctionComponent<Props> = ({
       <TextWrapper>
         <LocalText>
           {purchaseData &&
-          (
-            purchaseData.place_of_purchase === "não definido"
+            (purchaseData.place_of_purchase === "não definido"
               ? ""
               : purchaseData.place_of_purchase.length > 20
               ? purchaseData.place_of_purchase.substring(0, 23) + "..."
-              : purchaseData.place_of_purchase)
-          }
+              : purchaseData.place_of_purchase)}
         </LocalText>
         <DateWrapper>
-          <Calendar
-            size={18}
-            color={defaultTheme.gray_600}
-          />
+          <Calendar size={18} color={defaultTheme.gray_600} />
           <DateText>{date}</DateText>
         </DateWrapper>
       </TextWrapper>

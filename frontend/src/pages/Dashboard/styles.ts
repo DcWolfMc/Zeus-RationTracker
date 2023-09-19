@@ -30,6 +30,11 @@ justify-content: space-between;
 gap:1.25rem;
 `
 export const ChartListWrapper = styled.section`
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+align-items: start;
+gap: 2.5rem;
 ::-webkit-scrollbar {
   
   width: 4px;

@@ -15,7 +15,7 @@ export const getPurchaseById = async (id:string) => {
 export const addPurchase = async(purchaseData:NewPurchaseData)=>{
     return api.post(`/purchase`,purchaseData)
 }
-export const EditPurchase = async(id:string, purchaseData:NewPurchaseData)=>{
+export const editPurchase = async(id:string, purchaseData:NewPurchaseData)=>{
     return api.put(`/purchase/${id}`,purchaseData)
 }
 export const DeletePurchaseById = async (id:string) => {

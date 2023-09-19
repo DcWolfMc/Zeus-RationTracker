@@ -6,7 +6,7 @@ export const PurchaseDetailsContainer = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  padding: 0 1.5rem;
+  padding: 0 2.5rem;
   flex-direction: column;
   align-items: center;
   gap: 2rem;
@@ -16,12 +16,36 @@ export const PurchaseDetailsContainer = styled.div`
 export const PurchaseDetailsHeader = styled.header`
   width: 100%;
   padding-top: 3rem;
-  padding: 3rem 2.5rem 1rem;
+  padding: 3rem 0rem 1rem;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: start;
 `;
+export const RowWrapper = styled.div`
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: stretch;
+`
+
+export const BackButton = styled.button`
+min-height: 100%;
+padding: 0 1rem;
+display: flex;
+justify-content: center;
+align-items: center ;
+color: ${props=>props.theme.gray_700};
+
+border: 0;
+background-color: ${props=>props.theme.gray_300};
+transition: background-color 200ms;
+&:hover{
+    background-color: ${props=>props.theme.gray_500};
+    transition: background-color 200ms;
+    cursor: pointer;
+}
+`
 export const HeaderTextWrapper = styled.div`
   padding: 0.5rem 1rem;
   display: flex;
@@ -86,8 +110,8 @@ export const TrashButton = styled(BaseIconButton)`
 `;
 export const DetailsWrapper = styled.div`
   flex: 1;
-  margin-left: 1.25rem;
-  margin-right: 1.25rem;
+  margin-left: 2.5rem;
+  margin-right: 2.5rem;
   padding: 2rem 0 3.5rem;
   width: 100%;
   display: flex;
@@ -124,6 +148,9 @@ export const ItemValue = styled(BaseText)`
   font-weight: 500;
   font-size: 1.25rem;
   color: ${(props) => props.theme.gray_900};
+  line-height: 1.25rem;
+  overflow:hidden;
+  word-wrap: break-word;
 `;
 export const ItemValueBold = styled(BaseText)`
   font-weight: bold;

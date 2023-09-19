@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const PurchaseListItemContainer = styled.button`
-min-width: 300px;
+min-width: 360px;
 display: flex;
 flex-direction: column;
 align-items: start;
@@ -47,6 +47,7 @@ export const Title = styled(BaseText)`
 max-width: 90%;
 font-weight: bold;
 font-size: 1.25rem;
+text-align: start;
 color: ${props => props.theme.gray_700};
 `
 export const Quantity = styled(BaseText)`
