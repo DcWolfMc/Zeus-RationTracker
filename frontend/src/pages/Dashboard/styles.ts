@@ -35,6 +35,7 @@ flex-direction: column;
 justify-content: flex-start;
 align-items: start;
 gap: 2.5rem;
+overflow-x: hidden;
 ::-webkit-scrollbar {
   
   width: 4px;
@@ -51,6 +52,7 @@ flex-direction: column;
 justify-content: flex-start;
 align-items: start;
 gap: 2.5rem;
+overflow-x: hidden;
 ::-webkit-scrollbar {
   
   width: 4px;

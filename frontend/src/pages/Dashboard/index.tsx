@@ -31,7 +31,7 @@ export const Dashboard = () => {
             parseISO(a.date_of_purchase).getTime()
             );
             setPurchases(sortedPurchasesData);
-            //console.log("getPurchases:", sortedPurchasesData);
+            console.log("getPurchases:", sortedPurchasesData);
         }).finally(()=>{
           setLoading(false)
         });
@@ -53,8 +53,8 @@ export const Dashboard = () => {
           <h1>Dashboard</h1>
           <PurchaseListScroller>
           <ChartList>
-            <DashboardCharts/>
-            <DashboardCharts/>
+            <DashboardCharts data={purchases} type="years"/>
+            <DashboardCharts data={purchases} type="acumulative-month"/>
           </ChartList>
           </PurchaseListScroller>
         </ChartListWrapper>
