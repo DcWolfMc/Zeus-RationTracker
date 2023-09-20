@@ -10,36 +10,40 @@ import {
   ChartList,
   PurchaseList,
   PurchaseListScroller,
+  PurchaseListTitleWrapper,
+  HistoryButton,
+  ChartListScroller,
 } from "./styles";
 import { PurchaseData } from "../../@types/purchaseData";
 import { getPurchases } from "../../services/api";
 import { parseISO } from "date-fns";
 import { DashboardCharts } from "../../components/DashboardCharts";
+import { ArrowRight } from "phosphor-react";
+import { useNavigate } from "react-router-dom";
 
 export const Dashboard = () => {
+  const navigate = useNavigate();
   const [purchases, setPurchases] = useState<PurchaseData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
-    if(loading){
-
+    if (loading) {
       async function CallApiData() {
-        
-        await getPurchases().then((response)=>{
-          const sortedPurchasesData: PurchaseData[] = response.data.sort(
-            (a: PurchaseData, b: PurchaseData) =>
-            parseISO(b.date_of_purchase).getTime() -
-            parseISO(a.date_of_purchase).getTime()
+        await getPurchases()
+          .then((response) => {
+            const sortedPurchasesData: PurchaseData[] = response.data.sort(
+              (a: PurchaseData, b: PurchaseData) =>
+                parseISO(b.date_of_purchase).getTime() -
+                parseISO(a.date_of_purchase).getTime()
             );
             setPurchases(sortedPurchasesData);
             console.log("getPurchases:", sortedPurchasesData);
-        }).finally(()=>{
-          setLoading(false)
-        });
-        
-        
-        }
-        CallApiData();
+          })
+          .finally(() => {
+            setLoading(false);
+          });
       }
+      CallApiData();
+    }
   }, [loading]);
   return (
     <DashboardContainer>
@@ -51,15 +55,22 @@ export const Dashboard = () => {
       <DashboardContent>
         <ChartListWrapper>
           <h1>Dashboard</h1>
-          <PurchaseListScroller>
-          <ChartList>
-            <DashboardCharts data={purchases} type="years"/>
-            <DashboardCharts data={purchases} type="acumulative-month"/>
-          </ChartList>
-          </PurchaseListScroller>
+          <ChartListScroller>
+            
+              <ChartList>
+                <DashboardCharts data={purchases} type="years" />
+                <DashboardCharts data={purchases} type="acumulative-month" />
+              </ChartList>
+          </ChartListScroller>
         </ChartListWrapper>
         <PurchaseListWrapper>
-          <h1>Compras</h1>
+          <PurchaseListTitleWrapper>
+            <h1>Compras</h1>
+            <HistoryButton onClick={() => navigate("/history")}>
+              Ver todos
+              <ArrowRight />
+            </HistoryButton>
+          </PurchaseListTitleWrapper>
           <PurchaseListScroller>
             <PurchaseList>
               {purchases.map((purchase) => {

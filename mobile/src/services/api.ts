@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import { NewPurchaseData, PurchaseData } from "../@types/purchaseData";
 
 export const api = axios.create({
-    baseURL: "http://localhost:3001",
+    baseURL: "http://172.18.9.170:3001",
     headers:{'Content-Type': 'application/json',}
 });
 

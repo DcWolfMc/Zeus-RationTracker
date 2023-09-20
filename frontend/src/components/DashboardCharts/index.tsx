@@ -22,6 +22,7 @@ import { FunctionComponent, useEffect, useState } from "react";
 import { PurchaseData } from "../../@types/purchaseData";
 import { format, getDaysInMonth, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { CircularProgress } from "@mui/material";
 interface DashboardChartsProps {
   type: "acumulative-year" | "years" | "acumulative-month" | "month";
   data: PurchaseData[];
@@ -31,13 +32,29 @@ export const DashboardCharts: FunctionComponent<DashboardChartsProps> = ({
   type,
 }) => {
   const [chartData, setChartData] = useState<LineChartUnit[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const actualDate = new Date();
   const actualYear = new Date().getFullYear();
   const actualMonth = new Date().getMonth();
   console.log("ChartIniticalData:", data);
+
   useEffect(() => {
-    setChartData(formatPurchasesDataToChart());
-  }, [data,type]);
+    console.log("loading", loading);
+    function loadingCharts() {
+      console.log("in function");
+      
+      if (loading) {
+        console.log("in if");
+        
+        const chartData = formatPurchasesDataToChart();
+        setChartData(chartData);
+        setLoading((state) => !state);
+      }
+    }
+    
+
+    loadingCharts();
+  }, [loading, data]);
   function ChartTitle() {
     let month = format(actualDate, "MMMM", { locale: ptBR });
     month = month.charAt(0).toUpperCase() + month.slice(1);
@@ -172,8 +189,10 @@ export const DashboardCharts: FunctionComponent<DashboardChartsProps> = ({
             ...yearsAuxData.slice(0, itemMonth),
             {
               ...yearsAuxData[itemMonth],
-              price: (yearsAuxData[itemMonth].price +=
-                Number((item.ration_price * item.quantity).toFixed(2))),
+              price: Number(
+                (yearsAuxData[itemMonth].price +=
+                  item.ration_price * item.quantity).toFixed(2)
+              ),
             },
             ...yearsAuxData.slice(itemMonth + 1),
           ];
@@ -188,44 +207,54 @@ export const DashboardCharts: FunctionComponent<DashboardChartsProps> = ({
 
   return (
     <LineChartContainer>
-      <ChartTitle />
-      <LineChart
-        width={730}
-        height={230}
-        data={chartData}
-        margin={{ top: 5, right: 30, left: 10, bottom: 0 }}
-      >
-        <CartesianGrid
-          strokeDasharray="3 3"
-          vertical={false}
-          stroke={defaultTheme.gray_900}
-        />
-        <XAxis
-          dataKey="label"
-          height={type.includes("year") ? 50 : 30}
-          tickMargin={type.includes("year") ? 20 : 10}
-          style={{
-            fontSize: "0.75rem",
-            display: "flex",
-            alignItems: "flex-start",
-          }}
-          angle={type.includes("year") ? 45 : 0}
-        />
-        <YAxis tickSize={1} tickMargin={10} style={{ fontSize: "0.75rem" }} />
-        <Tooltip />
-        <Legend
-          verticalAlign="top"
-          height={36}
-          margin={{ top: 0, bottom: 0 }}
-          style={{}}
-        />
-        <Line
-          strokeWidth={3}
-          dot={{ strokeWidth: 1 }}
-          dataKey="price"
-          stroke={defaultTheme.green_300}
-        />
-      </LineChart>
+      {loading ? (
+        <CircularProgress />
+      ) : (
+        <>
+          <ChartTitle />
+          <LineChart
+            width={730}
+            height={230}
+            data={chartData}
+            margin={{ top: 5, right: 30, left: 10, bottom: 0 }}
+          >
+            <CartesianGrid
+              strokeDasharray="3 3"
+              vertical={false}
+              stroke={defaultTheme.gray_900}
+            />
+            <XAxis
+              dataKey="label"
+              height={type.includes("year") ? 50 : 30}
+              tickMargin={type.includes("year") ? 20 : 10}
+              style={{
+                fontSize: "0.75rem",
+                display: "flex",
+                alignItems: "flex-start",
+              }}
+              angle={type.includes("year") ? 45 : 0}
+            />
+            <YAxis
+              tickSize={1}
+              tickMargin={10}
+              style={{ fontSize: "0.75rem" }}
+            />
+            <Tooltip />
+            <Legend
+              verticalAlign="top"
+              height={36}
+              margin={{ top: 0, bottom: 0 }}
+              style={{}}
+            />
+            <Line
+              strokeWidth={3}
+              dot={{ strokeWidth: 1 }}
+              dataKey="price"
+              stroke={defaultTheme.green_300}
+            />
+          </LineChart>
+        </>
+      )}
     </LineChartContainer>
   );
 };

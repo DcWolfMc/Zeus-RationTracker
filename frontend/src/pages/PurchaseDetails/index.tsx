@@ -59,7 +59,7 @@ export const PurchaseDetails: FunctionComponent = () => {
       if (id) {
         await getPurchaseById(id!).then((response) => {
           setPurchaseData(response.data);
-          //console.log("getPurchaseById:", response.data);
+          console.log("getPurchaseById:", response.data);
           setLoading(false);
         });
       }
@@ -113,7 +113,7 @@ export const PurchaseDetails: FunctionComponent = () => {
     <PurchaseDetailsContainer>
       <PurchaseDetailsHeader>
         <RowWrapper>
-            <BackButton onClick={()=>navigate("/")}>
+            <BackButton onClick={()=>navigate(-1)}>
                 <ArrowLeft size={40}/>
             </BackButton>
           {loading ? (

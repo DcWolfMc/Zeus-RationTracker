@@ -1,6 +1,8 @@
 import { styled } from "styled-components";
 export const LineChartContainer = styled.div`
-  min-width: 360px;
+  width: 100%;
+  min-height: 230px;
+  min-width: 730px;
   display: flex;
   flex-direction: column;
   align-items: center;

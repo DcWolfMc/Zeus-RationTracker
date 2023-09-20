@@ -22,6 +22,7 @@ export const SummaryCard = styled.div<SummaryCardProps>`
     justify-content: start;
     align-items: start;
     gap: 0.25rem;
+    
   }
   footer {
     display: flex;
@@ -39,6 +40,8 @@ interface HeaderTextProps {
 export const HeaderText = styled.samp<HeaderTextProps>`
   font-weight: bold;
   font-size: 1.25rem;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   ${(props) =>
       props.variant === "green" &&
       css`
@@ -51,6 +54,8 @@ interface HeaderTextHighlightProps {
 export const HeaderTextHighlight = styled.samp<HeaderTextHighlightProps>`
   font-weight: bold;
   font-size: 1.25rem;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   color: ${(props) =>
     props.variant === "green" ? props.theme.yellow_300 : props.theme.green_300};
 `;

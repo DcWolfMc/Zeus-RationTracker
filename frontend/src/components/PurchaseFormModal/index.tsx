@@ -1,4 +1,4 @@
-import { FormEvent, FunctionComponent, useState } from "react";
+import { FormEvent, FunctionComponent, useEffect, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import {
   CloseButton,
@@ -25,24 +25,41 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 interface NewPurchaseModalProps {
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
-  type?: "create"|"edit";
-  purchaseData?:PurchaseData
+  type?: "create" | "edit";
+  purchaseData?: PurchaseData;
 }
 export const PurchaseFormModal: FunctionComponent<NewPurchaseModalProps> = ({
   setOpenModal,
   type,
-  purchaseData
+  purchaseData,
 }) => {
-  const navigate = useNavigate()
-  const [name, setName] = useState<string>(type==="edit"&&purchaseData?purchaseData?.name:"");
-  const [quantity, setQuantity] = useState<string>(type==="edit"&&purchaseData?purchaseData?.quantity.toString():"");
-  const [price, setPrice] = useState<string>(type==="edit"&&purchaseData?currencyMask(purchaseData?.ration_price.toString()):"");
-  const [date, setDate] = useState<string>(type==="edit"&&purchaseData?format(new Date(purchaseData?.date_of_purchase), "yyyy-MM-dd"):"");
-  const [weight, setWeight] = useState<string>(type==="edit"&&purchaseData?weightMask(purchaseData?.ration_weight.toString()):"");
-  const [place, setPlace] = useState<string>(type==="edit"&&purchaseData?purchaseData?.place_of_purchase:"");
-  const [brand, setBrand] = useState<string>(type==="edit"&&purchaseData?.ration_brand? purchaseData.ration_brand:"");
-  const [observations, setObservations] = useState<string>(type==="edit"&&purchaseData?.observations?purchaseData?.observations:"");
+  console.log("purchaseData", purchaseData ? purchaseData : "");
+
+  const navigate = useNavigate();
+  const [name, setName] = useState<string>("");
+  const [quantity, setQuantity] = useState<string>("");
+  const [price, setPrice] = useState<string>("");
+  const [date, setDate] = useState<string>("");
+  const [weight, setWeight] = useState<string>("");
+  const [place, setPlace] = useState<string>("");
+  const [brand, setBrand] = useState<string>("");
+  const [observations, setObservations] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (purchaseData && type === "edit") {
+      setName(purchaseData?.name);
+      setQuantity(purchaseData?.quantity.toString());
+      setPrice(currencyMask(purchaseData?.ration_price.toString()));
+      setDate(format(new Date(purchaseData?.date_of_purchase), "yyyy-MM-dd"));
+      setWeight(weightMask(purchaseData?.ration_weight.toString()));
+      setPlace(purchaseData?.place_of_purchase !=="não definido"? purchaseData.place_of_purchase:"");
+      setBrand(purchaseData?.ration_brand&&purchaseData.ration_brand !=="não definido"? purchaseData.ration_brand: "");
+      setObservations(
+        purchaseData?.observations ? purchaseData?.observations : ""
+      );
+    }
+  }, [purchaseData, type]);
 
   function handleFormatPrice(number: string) {
     setPrice(currencyMask(number));
@@ -63,7 +80,7 @@ export const PurchaseFormModal: FunctionComponent<NewPurchaseModalProps> = ({
     setDate("");
     setWeight("");
   }
-  async function handleSubmit(event:FormEvent) {
+  async function handleSubmit(event: FormEvent) {
     event.preventDefault();
     setLoading(true);
     const data: NewPurchaseData = {
@@ -78,44 +95,43 @@ export const PurchaseFormModal: FunctionComponent<NewPurchaseModalProps> = ({
     };
     console.log("data:", data);
 
-    if(type==="edit"&&purchaseData){
+    if (type === "edit" && purchaseData) {
       editPurchase(purchaseData?._id, data)
-      .then((res) => {
-        toast.success("Compra Editada!", {
-          position: "bottom-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
+        .then((res) => {
+          toast.success("Compra Editada!", {
+            position: "bottom-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
           });
-        clearAllStates();
-        console.log("editPurchase: ", res.data);
-        setOpenModal((state)=>!state);
-        setTimeout(()=>{
-          navigate(0);
-        },3500)  
-      })
-      .catch((error:AxiosError) => {
-
-        toast.error('Não foi possível editar a compra', {
-          position: "bottom-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
+          clearAllStates();
+          console.log("editPurchase: ", res.data);
+          setOpenModal((state) => !state);
+          setTimeout(() => {
+            navigate(0);
+          }, 3500);
+        })
+        .catch((error: AxiosError) => {
+          toast.error("Não foi possível editar a compra", {
+            position: "bottom-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
           });
-        console.log("editPurchase: ", error.response?.data);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-    }else{
+          console.log("editPurchase: ", error.response?.data);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    } else {
       addPurchase(data)
         .then((res) => {
           toast.success("Compra Adicionada!", {
@@ -127,17 +143,16 @@ export const PurchaseFormModal: FunctionComponent<NewPurchaseModalProps> = ({
             draggable: true,
             progress: undefined,
             theme: "light",
-            });
+          });
           clearAllStates();
           console.log("addPurchase: ", res.data);
-          setOpenModal((state)=>!state);
-          setTimeout(()=>{
+          setOpenModal((state) => !state);
+          setTimeout(() => {
             navigate(0);
-          },3500)  
+          }, 3500);
         })
-        .catch((error:AxiosError) => {
-  
-          toast.error('Não foi possível adicionar a compra', {
+        .catch((error: AxiosError) => {
+          toast.error("Não foi possível adicionar a compra", {
             position: "bottom-center",
             autoClose: 3000,
             hideProgressBar: false,
@@ -146,7 +161,7 @@ export const PurchaseFormModal: FunctionComponent<NewPurchaseModalProps> = ({
             draggable: true,
             progress: undefined,
             theme: "light",
-            });
+          });
           console.log("addPurchase: ", error.response?.data);
         })
         .finally(() => {
@@ -158,7 +173,7 @@ export const PurchaseFormModal: FunctionComponent<NewPurchaseModalProps> = ({
     <Dialog.Portal>
       <Overlay />
       <Content>
-        <Title>{type==="edit"?"Editar Compra":"Nova Compra"}</Title>
+        <Title>{type === "edit" ? "Editar Compra" : "Nova Compra"}</Title>
         <CloseButton>
           <X size={24} />
         </CloseButton>
@@ -172,7 +187,7 @@ export const PurchaseFormModal: FunctionComponent<NewPurchaseModalProps> = ({
             type="text"
             label="Nome"
             variant="outlined"
-            inputProps={{maxlength:35}}
+            inputProps={{ maxlength: 35 }}
           />
           <InputsWrapper>
             <TextInput
@@ -185,7 +200,7 @@ export const PurchaseFormModal: FunctionComponent<NewPurchaseModalProps> = ({
               type="text"
               label="Quantidade"
               variant="outlined"
-              inputProps={{maxlength:4}}
+              inputProps={{ maxlength: 4 }}
             />
             <TextInput
               required
@@ -202,7 +217,7 @@ export const PurchaseFormModal: FunctionComponent<NewPurchaseModalProps> = ({
                   <InputAdornment position="start">R$</InputAdornment>
                 ),
               }}
-              inputProps={{maxlength:10}}
+              inputProps={{ maxlength: 10 }}
             />
           </InputsWrapper>
 
@@ -216,8 +231,12 @@ export const PurchaseFormModal: FunctionComponent<NewPurchaseModalProps> = ({
               }}
               type="date"
               variant="outlined"
-              InputProps={{inputProps: { min: "2000-05-04", max: format(new Date(), "yyyy-MM-dd")} }}
-              
+              InputProps={{
+                inputProps: {
+                  min: "2000-05-04",
+                  max: format(new Date(), "yyyy-MM-dd"),
+                },
+              }}
             />
             <TextInput
               required
@@ -226,7 +245,6 @@ export const PurchaseFormModal: FunctionComponent<NewPurchaseModalProps> = ({
               onChange={(e) => {
                 handleFormatWeight(e.target.value);
               }}
-              
               type="text"
               label="Peso"
               variant="outlined"
@@ -235,7 +253,7 @@ export const PurchaseFormModal: FunctionComponent<NewPurchaseModalProps> = ({
                   <InputAdornment position="end">Kg</InputAdornment>
                 ),
               }}
-              inputProps={{maxlength:10}}
+              inputProps={{ maxlength: 10 }}
             />
           </InputsWrapper>
           <TextInput
@@ -244,7 +262,7 @@ export const PurchaseFormModal: FunctionComponent<NewPurchaseModalProps> = ({
             type="text"
             label="Local da compra"
             variant="outlined"
-            inputProps={{maxlength:50}}
+            inputProps={{ maxlength: 50 }}
           />
           <TextInput
             value={brand}
@@ -252,7 +270,7 @@ export const PurchaseFormModal: FunctionComponent<NewPurchaseModalProps> = ({
             type="text"
             label="Marca"
             variant="outlined"
-            inputProps={{maxlength:20}}
+            inputProps={{ maxlength: 20 }}
           />
           <TextInput
             value={observations}
@@ -263,7 +281,7 @@ export const PurchaseFormModal: FunctionComponent<NewPurchaseModalProps> = ({
             maxRows={4}
             label="Observações"
             variant="outlined"
-            inputProps={{maxlength:200}}
+            inputProps={{ maxlength: 200 }}
           />
 
           <button type="submit" disabled={loading}>
