@@ -100,7 +100,7 @@ export const ChartListScroller = styled.div`
   flex-direction: column;
   //align-items: center;
   //justify-content: center;
-  overflow-y: auto;
+  overflow-x: hidden;
 `;
 
 const BaseContentSection = styled.section`
@@ -111,7 +111,6 @@ const BaseContentSection = styled.section`
 `;
 
 export const ChartList = styled(BaseContentSection)`
-  width: 100%;
 `;
 export const PurchaseList = styled(BaseContentSection)`
   //padding: 1rem 0.5rem;

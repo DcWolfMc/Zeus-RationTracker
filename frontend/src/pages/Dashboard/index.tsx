@@ -56,10 +56,9 @@ export const Dashboard = () => {
         <ChartListWrapper>
           <h1>Dashboard</h1>
           <ChartListScroller>
-            
               <ChartList>
-                <DashboardCharts data={purchases} type="years" />
-                <DashboardCharts data={purchases} type="acumulative-month" />
+                <DashboardCharts data={purchases} type="years" loading={loading} setLoading={setLoading} />
+                <DashboardCharts data={purchases} type="acumulative-month" loading={loading} setLoading={setLoading}/>
               </ChartList>
           </ChartListScroller>
         </ChartListWrapper>

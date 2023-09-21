@@ -15,8 +15,8 @@ import {
 } from "./styles";
 import { defaultTheme } from "../../styles/themes/default";
 import {
-  LineChartDataYearTemplate,
   LineChartUnit,
+  LineChartDataYearTemplate
 } from "../../@types/LinechartData";
 import { FunctionComponent, useEffect, useState } from "react";
 import { PurchaseData } from "../../@types/purchaseData";
@@ -26,13 +26,16 @@ import { CircularProgress } from "@mui/material";
 interface DashboardChartsProps {
   type: "acumulative-year" | "years" | "acumulative-month" | "month";
   data: PurchaseData[];
+  loading: boolean
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>
 }
 export const DashboardCharts: FunctionComponent<DashboardChartsProps> = ({
   data,
   type,
+  loading,
+  setLoading
 }) => {
   const [chartData, setChartData] = useState<LineChartUnit[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
   const actualDate = new Date();
   const actualYear = new Date().getFullYear();
   const actualMonth = new Date().getMonth();
@@ -41,20 +44,17 @@ export const DashboardCharts: FunctionComponent<DashboardChartsProps> = ({
   useEffect(() => {
     console.log("loading", loading);
     function loadingCharts() {
-      console.log("in function");
-      
-      if (loading) {
+      if (!loading) {
         console.log("in if");
         
         const chartData = formatPurchasesDataToChart();
         setChartData(chartData);
-        setLoading((state) => !state);
       }
     }
     
 
     loadingCharts();
-  }, [loading, data]);
+  }, [data, loading]);
   function ChartTitle() {
     let month = format(actualDate, "MMMM", { locale: ptBR });
     month = month.charAt(0).toUpperCase() + month.slice(1);
@@ -96,8 +96,9 @@ export const DashboardCharts: FunctionComponent<DashboardChartsProps> = ({
     }
   }
   function formatPurchasesDataToChart() {
-    switch (type) {
-      case "month":
+      if(type === "month" ) {
+
+      
         let monthAuxData: LineChartUnit[] = [];
         for (let i = 0; i <= getDaysInMonth(actualDate); i++) {
           monthAuxData.push({
@@ -130,9 +131,10 @@ export const DashboardCharts: FunctionComponent<DashboardChartsProps> = ({
           ];
         });
         return monthAuxData;
+      }
+      else if(type === "acumulative-month" ) {
 
-        break;
-      case "acumulative-month":
+      
         let aMonthAuxData: LineChartUnit[] = [];
         const aMonthFilteredData = data.filter((item) => {
           let itemDate = new Date(item.date_of_purchase);
@@ -161,38 +163,42 @@ export const DashboardCharts: FunctionComponent<DashboardChartsProps> = ({
           });
         }
         return aMonthAuxData;
-        break;
-      case "acumulative-year":
+      }
+      else if(type === "acumulative-year" ) {
+
         console.log("Não tratado ainda");
         return [];
-        break;
-      case "years":
-        let yearsAuxData = LineChartDataYearTemplate;
+      }
+      else if(type === "years" ) {
+        
+        let yearsAuxData:LineChartUnit[] = []
+        yearsAuxData = LineChartDataYearTemplate;
+        yearsAuxData.forEach((item, index)=>{
+          yearsAuxData = [
+            ...yearsAuxData.slice(0, index),
+            {
+              ...yearsAuxData[index],
+              price: yearsAuxData[index].price = 0
+            },
+            ...yearsAuxData.slice(index + 1),
+          ];
+        });
         const yearFilteredData = data.filter((item) => {
           let itemDate = new Date(item.date_of_purchase);
           return itemDate.getFullYear() === actualYear;
         });
-
+        
         yearFilteredData.map((item) => {
           let itemMonth = parseISO(item.date_of_purchase).getMonth();
-          console.log("Item:", item);
-
-          console.log(
-            `${itemMonth}: Adicionando ${item.ration_price * item.quantity}`
-          );
-          console.log(
-            `${itemMonth}: Acumulado do mês => ${
-              yearsAuxData[itemMonth].price + item.ration_price * item.quantity
-            }`
-          );
+          //console.log("Item:", item);
+          //console.log(`${itemMonth}: Adicionando ${item.ration_price * item.quantity}`);
+          console.log(`yearsCall - ${itemMonth}: Acumulado do mês => ${yearsAuxData[itemMonth].price + item.ration_price * item.quantity}`);
           yearsAuxData = [
             ...yearsAuxData.slice(0, itemMonth),
             {
               ...yearsAuxData[itemMonth],
-              price: Number(
-                (yearsAuxData[itemMonth].price +=
-                  item.ration_price * item.quantity).toFixed(2)
-              ),
+              price: Number((yearsAuxData[itemMonth].price +=
+                  item.ration_price * item.quantity).toFixed(2)),
             },
             ...yearsAuxData.slice(itemMonth + 1),
           ];
@@ -200,10 +206,11 @@ export const DashboardCharts: FunctionComponent<DashboardChartsProps> = ({
         console.log("yearsAuxData: ", yearsAuxData);
 
         return yearsAuxData;
-      default:
+      }
+      else{
         return [];
+      }
     }
-  }
 
   return (
     <LineChartContainer>
