@@ -37,3 +37,17 @@ export const templatePurchaseData:PurchaseData ={
   updated_at:"",
   
 }
+
+export interface FilterDataProps {
+  years: string[];
+  months: string[];
+  filterText: string;
+
+}
+
+export const FilterDataTemplate = {
+  years: [],
+  months: [],
+  filterText: "",
+}
+

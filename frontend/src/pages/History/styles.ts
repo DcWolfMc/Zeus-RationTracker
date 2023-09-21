@@ -19,6 +19,14 @@ align-items: center;
 gap: 0.5rem;
 
 `
+export const HeaderHistoryWrapper = styled.div`
+width: 100%;
+display: flex;
+flex-direction: row;
+align-items: stretch;
+gap: 1rem;
+background-color: ${props=>props.theme.gray_300};
+`
 export const SearchFormContainer = styled.div`
   width: 100%;
   max-width: 1220px;
@@ -30,7 +38,7 @@ export const SearchFormContainer = styled.div`
   gap: 1.5rem;
 
   //margin-top: -5.5rem;
-  background-color: ${props=>props.theme.gray_300};
+  
   //border: 2px solid ${props=>props.theme.gray_button_hover};
   border-radius: 36px;
   //box-shadow: 0px 10px 5px -3px rgba(0,0,0,0.2);
@@ -50,7 +58,7 @@ export const SearchFormContainer = styled.div`
       padding: 0.5rem 1rem;
 
       &::placeholder {
-        color: ${(props) => props.theme.gray_500};
+        color: ${(props) => props.theme.gray_700};
       }
     }
     button[type="submit"] {
@@ -80,25 +88,44 @@ export const SearchFormContainer = styled.div`
   }
 }
 `
+
 export const BackButton = styled.button`
-height: 60px;
-width: 60px;
+min-height: 100%;
 padding: 0 1rem;
 display: flex;
 justify-content: center;
 align-items: center ;
 color: ${props=>props.theme.gray_700};
-border-radius: 100%;
-border: 2px solid ${props=>props.theme.gray_700};
-background-color: transparent;
+
+border: 0;
+background-color: ${props=>props.theme.gray_300};
 transition: background-color 200ms;
 &:hover{
-    background-color: ${props=>props.theme.gray_700};
-    color: ${props=>props.theme.gray_400};
+    background-color: ${props=>props.theme.gray_500};
     transition: background-color 200ms;
     cursor: pointer;
 }
 `
+
+// export const BackButton = styled.button`
+// height: 60px;
+// width: 60px;
+// padding: 0 1rem;
+// display: flex;
+// justify-content: center;
+// align-items: center ;
+// color: ${props=>props.theme.gray_700};
+// border-radius: 100%;
+// border: 2px solid ${props=>props.theme.gray_700};
+// background-color: transparent;
+// transition: background-color 200ms;
+// &:hover{
+//     background-color: ${props=>props.theme.gray_700};
+//     color: ${props=>props.theme.gray_400};
+//     transition: background-color 200ms;
+//     cursor: pointer;
+// }
+// `
 
 
 
@@ -171,6 +198,7 @@ export const DetailsButton = styled.button`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  gap:0.5rem;
 
   color: ${(props) => props.theme.gray_600};
   font-weight: bold;
