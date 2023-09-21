@@ -10,7 +10,7 @@ import { PurchaseDetailsScreen } from "./screens/PurchaseDetailsScreen";
 import { defaultTheme } from "./global/styles/theme";
 import { getContrast } from "polished";
 import { PurchaseEditScreen } from "./screens/PurchaseEditScreen";
-import { Platform, PlatformOSType } from "react-native";
+import { Platform } from "react-native";
 
 /*Tipo da RAIZ de navegação */
 export type RootStackParamList = {

@@ -113,7 +113,7 @@ color: ${props=>props.theme.colors.gray_600};
 `
 export const PurchasesList:ScrollViewType = styled.ScrollView.attrs({
     alwaysBounceVertical:false,
-    contentContainerStyle: { paddingHorizontal: 10},
+    contentContainerStyle: { paddingHorizontal: 10, paddingBottom:RFValue(20)},
 })`
 width:100%;
 height:60%;

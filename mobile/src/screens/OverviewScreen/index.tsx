@@ -109,7 +109,7 @@ export const OverviewScreen: FunctionComponent<OverviewScreenProps> = ({
                 {purchases && purchases.length + 1} Itens
               </PurchasesListHeaderText>
             </PurchasesListHeader>
-            <PurchasesList style={{ flexGrow: 1 }}>
+            <PurchasesList style={{ flexGrow: 1 }} contentContainerStyle={{}}>
               {purchases.map((item) => {
                 return (
                   <PurchaseListItem

@@ -41,6 +41,7 @@ import {
 } from "../../utils/Toast";
 import { addPurchase } from "../../services/api";
 import { ErrorToast } from "../Toast";
+import { Platform } from "react-native";
 interface Props {
   setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
   handleModal: () => void;
@@ -191,7 +192,7 @@ export const NewPurchaseModal: FunctionComponent<Props> = ({
                 />
               </InputsHorizontalWrapper>
               <InputsHorizontalWrapper>
-                {displayDate && (
+                {Platform.OS!== "ios" && displayDate && (
                   <RNDateTimePicker
                     maximumDate={new Date()}
                     value={date != undefined ? date : new Date()}

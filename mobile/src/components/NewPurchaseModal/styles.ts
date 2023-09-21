@@ -6,6 +6,7 @@ import { Feather } from "@expo/vector-icons";
 import { IconButton } from "../IconButton";
 import { Divider, TextInput,  } from "react-native-paper";
 import { defaultTheme } from "../../global/styles/theme";
+import RNDateTimePicker from "@react-native-community/datetimepicker";
 type ContentViewType = typeof KeyboardAvoidingView
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -60,11 +61,26 @@ export const InputsWrapper = styled.View`
   gap: ${RFValue(24)}px;
 `;
 export const InputsHorizontalWrapper = styled.View`
+z-index: 10;
+position: relative;
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 `;
+type DataInputType = typeof RNDateTimePicker
+export const DataInput:DataInputType = styled(RNDateTimePicker)`
+position: absolute;
+z-index: 1;
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+border: 2px;
+background-color: ${(props) => props.theme.colors.gray_600};
+border-color: ${(props) => props.theme.colors.gray_600};
+
+`
 type TextInputType = typeof TextInput;
 export const EditTextInput: TextInputType = styled(TextInput).attrs({
   mode: "outlined",
