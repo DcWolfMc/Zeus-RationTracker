@@ -5,7 +5,6 @@ import { Feather } from "@expo/vector-icons";
 
 export const InfoBoxContainer = styled.View`
 max-width: ${RFValue(252)}px;
-margin-left: ${RFValue(16)}px;
 display: flex;
 flex-direction: column;
 align-items: start;
@@ -13,6 +12,12 @@ justify-content: start;
 padding: ${RFValue(24)}px ${RFValue(16)}px;
 background-color: ${props=>props.theme.colors.gray_200};
 border-radius: 8px;
+margin-left: ${RFValue(16)}px;
+
+&:fist-child {
+ background-color: red;
+}
+
 `
 
 export const TopTextWrapper = styled.View`

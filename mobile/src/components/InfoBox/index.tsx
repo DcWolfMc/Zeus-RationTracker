@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { View, ViewProps } from "react-native";
 import {
   InfoBoxContainer,
   BottonText,
@@ -14,13 +14,14 @@ import { differenceInDays, format, formatISO, sub } from "date-fns";
 import { formatNumber } from "react-native-currency-input";
 import { ptBR } from "date-fns/locale";
 import { MonthTotalValue } from "../MonthTotalValue";
-interface Props {
+interface Props extends ViewProps{
   purchasesData: PurchaseData[];
   monthsToSub: number;
 }
 export const InfoBox: FunctionComponent<Props> = ({
   purchasesData,
   monthsToSub,
+  ...rest
 }) => {
   const actualDate = new Date();
   const InfoBoxDate = sub(actualDate, { months: monthsToSub });
@@ -50,7 +51,7 @@ export const InfoBox: FunctionComponent<Props> = ({
   );
 
   return (
-    <InfoBoxContainer>
+    <InfoBoxContainer {...rest}>
       <TopTextWrapper>
         <TopText>Total no mês:</TopText>
         <TopTextHighlight>{monthName()}</TopTextHighlight>

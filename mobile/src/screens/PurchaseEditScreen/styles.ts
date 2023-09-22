@@ -7,6 +7,7 @@ import { IconButton } from "../../components/IconButton";
 import { Divider, TextInput } from "react-native-paper";
 import { defaultTheme } from "../../global/styles/theme";
 import CurrencyInput from 'react-native-currency-input';
+import RNDateTimePicker from "@react-native-community/datetimepicker";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 type ContainerType = typeof KeyboardAvoidingView
@@ -42,7 +43,7 @@ export const Title = styled(BaseText)`
 `;
 export const InputsWrapper = styled.View`
   width: 100%;
-
+  
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -51,11 +52,32 @@ export const InputsWrapper = styled.View`
 `;
 export const InputsHorizontalWrapper = styled.View`
   width: 100%;
+  z-index: 10;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   gap: ${RFValue(12)}px;
 `;
+export const DataInputView = styled.View`
+position: absolute;
+z-index: 1;
+flex-direction: row;
+display: flex;
+align-items: center;
+justify-content: center;
+background-color: ${(props) => props.theme.colors.gray_600};
+border-color: ${(props) => props.theme.colors.gray_600};
+
+`
+type DataInputType = typeof RNDateTimePicker
+export const DataInput:DataInputType = styled(RNDateTimePicker)`
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+border: 2px;
+
+`
 type TextInputType = typeof TextInput;
 type CurrencyInputType = typeof CurrencyInput
 export const EditTextInput: TextInputType = styled(TextInput).attrs({
@@ -91,7 +113,8 @@ font-weight: bold;
 
 export const ButtonWrapper = styled.View`
   width: 100%;
-  padding: 0px ${RFValue(16)}px;
+  padding: 0px ${RFValue(0)}px;
+  padding-bottom: ${RFValue(20)}px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;

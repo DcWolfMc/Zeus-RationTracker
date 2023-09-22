@@ -86,8 +86,8 @@ export const OverviewScreen: FunctionComponent<OverviewScreenProps> = ({
   return (
     <Container>
       <Header>
-        <Logo source={require("../../../assets/logo.png")} />
         <HeaderButtonWrapper>
+        <Logo source={require("../../../assets/logo.png")} />
           <NewPurchaseButton onPress={() => setModalVisible(true)}>
             <NewPurchaseText textColor={"yellow"}>Nova Compra</NewPurchaseText>
             <Icon name="plus" size={20} color={defaultTheme.colors.gray_300} />
@@ -98,7 +98,7 @@ export const OverviewScreen: FunctionComponent<OverviewScreenProps> = ({
       <View>
         <ContentView>
           <InfoBoxScroller>
-            <InfoBox monthsToSub={0} purchasesData={purchases} />
+            <InfoBox monthsToSub={0} purchasesData={purchases}  style={{marginLeft:0}}/>
             <InfoBox monthsToSub={1} purchasesData={purchases} />
             <InfoBox monthsToSub={2} purchasesData={purchases} />
           </InfoBoxScroller>
@@ -152,53 +152,3 @@ export const OverviewScreen: FunctionComponent<OverviewScreenProps> = ({
     </Container>
   );
 };
-// const styles = StyleSheet.create({
-//   centeredView: {
-//     backgroundColor:"#000",
-//     flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     marginTop: 22,
-//   },
-//   viewModal: {
-//     flex: 1,
-//     justifyContent: 'flex-end',
-//     alignItems: 'center',
-//     marginTop: 22,
-//   },
-//   modalView: {
-//     margin: 20,
-//     backgroundColor: 'white',
-//     borderRadius: 20,
-//     padding: 35,
-//     alignItems: 'flex-end',
-//     shadowColor: '#000',
-//     shadowOffset: {
-//       width: 0,
-//       height: 2,
-//     },
-//     shadowOpacity: 0.25,
-//     shadowRadius: 4,
-//     elevation: 5,
-//   },
-//   button: {
-//     borderRadius: 20,
-//     padding: 10,
-//     elevation: 2,
-//   },
-//   buttonOpen: {
-//     backgroundColor: '#F194FF',
-//   },
-//   buttonClose: {
-//     backgroundColor: '#2196F3',
-//   },
-//   textStyle: {
-//     color: 'white',
-//     fontWeight: 'bold',
-//     textAlign: 'center',
-//   },
-//   modalText: {
-//     marginBottom: 15,
-//     textAlign: 'center',
-//   },
-// });

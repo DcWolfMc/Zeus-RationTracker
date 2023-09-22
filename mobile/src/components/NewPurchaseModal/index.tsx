@@ -29,6 +29,8 @@ import {
   EditTextInput,
   ContainerScroller,
   EditMultilineTextInput,
+  DataInputView,
+  DataInput,
 } from "./styles";
 import { defaultTheme } from "../../global/styles/theme";
 import { ActivityIndicator, TextInput } from "react-native-paper";
@@ -152,7 +154,7 @@ export const NewPurchaseModal: FunctionComponent<Props> = ({
       }}
     >
       <Container>
-        <ContentView behavior="padding" >
+        <ContentView behavior={Platform.OS==="ios"?"padding": "height"} >
           <ContainerScroller>
             <Title>Novo Produto</Title>
             <InputsWrapper>
@@ -192,7 +194,7 @@ export const NewPurchaseModal: FunctionComponent<Props> = ({
                 />
               </InputsHorizontalWrapper>
               <InputsHorizontalWrapper>
-                {Platform.OS!== "ios" && displayDate && (
+                {displayDate && (Platform.OS!== "ios"?(
                   <RNDateTimePicker
                     maximumDate={new Date()}
                     value={date != undefined ? date : new Date()}
@@ -206,7 +208,19 @@ export const NewPurchaseModal: FunctionComponent<Props> = ({
                       textColor: defaultTheme.colors.green_300,
                     }}
                   />
-                )}
+                ): (<DataInputView>
+                  <DataInput
+                    display="inline"
+                    maximumDate={new Date()}
+                    value={date != undefined ? date : new Date()}
+                    mode="date"
+                    onChange={(event, date) => {
+                      handleDatePicker(date);
+                      setDisplayDate(false);
+                    }}
+                    
+                  />
+                </DataInputView>))}
                 <EditTextInput
                   onPressIn={() => {
                     Keyboard.dismiss();

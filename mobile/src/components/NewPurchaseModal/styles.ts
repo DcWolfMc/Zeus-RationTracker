@@ -68,17 +68,24 @@ position: relative;
   flex-direction: row;
   justify-content: space-between;
 `;
-type DataInputType = typeof RNDateTimePicker
-export const DataInput:DataInputType = styled(RNDateTimePicker)`
+export const DataInputView = styled.View`
 position: absolute;
 z-index: 1;
+flex-direction: row;
+display: flex;
+align-items: center;
+justify-content: center;
+background-color: ${(props) => props.theme.colors.gray_500};
+border-color: ${(props) => props.theme.colors.gray_500};
+
+`
+type DataInputType = typeof RNDateTimePicker
+export const DataInput:DataInputType = styled(RNDateTimePicker)`
 display: flex;
 flex-direction: row;
 justify-content: center;
 align-items: center;
 border: 2px;
-background-color: ${(props) => props.theme.colors.gray_600};
-border-color: ${(props) => props.theme.colors.gray_600};
 
 `
 type TextInputType = typeof TextInput;
@@ -107,7 +114,7 @@ font-weight: bold;
 
 export const ButtonWrapper = styled.View`
   width: 100%;
-  padding: 0px ${RFValue(16)}px;
+  padding: 0px ${RFValue(0)}px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;

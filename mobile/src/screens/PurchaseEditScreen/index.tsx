@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from "react";
-import { Dimensions, ScrollView, Text, Keyboard } from "react-native";
+import { Dimensions, ScrollView, Text, Keyboard, Platform } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { PurchaseStackParamList, RootStackParamList } from "../../Routes";
@@ -26,6 +26,8 @@ import {
   DatePickerButton,
   DatePickerText,
   EditMultilineTextInput,
+  DataInputView,
+  DataInput,
 } from "./styles";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import { defaultTheme } from "../../global/styles/theme";
@@ -98,7 +100,7 @@ export const PurchaseEditScreen: FunctionComponent<OverviewScreenProps> = ({
       });
   }
   return (
-    <Container behavior="padding">
+    <Container behavior={Platform.OS==="ios"?"padding": "height"}>
       <ContainerScroller>
         <Title>Edição</Title>
         <InputsWrapper>
@@ -134,21 +136,33 @@ export const PurchaseEditScreen: FunctionComponent<OverviewScreenProps> = ({
             />
           </InputsHorizontalWrapper>
           <InputsHorizontalWrapper>
-            {displayDate && (
-              <RNDateTimePicker
-                maximumDate={new Date()}
-                value={date != undefined ? date : new Date()}
-                mode="date"
-                onChange={(event, date) => {
-                  handleDatePicker(date);
-                  setDisplayDate(false);
-                }}
-                positiveButton={{
-                  label: "OK",
-                  textColor: defaultTheme.colors.green_300,
-                }}
-              />
-            )}
+          {displayDate && (Platform.OS!== "ios"?(
+                  <RNDateTimePicker
+                    maximumDate={new Date()}
+                    value={date != undefined ? date : new Date()}
+                    mode="date"
+                    onChange={(event, date) => {
+                      handleDatePicker(date);
+                      setDisplayDate(false);
+                    }}
+                    positiveButton={{
+                      label: "OK",
+                      textColor: defaultTheme.colors.green_300,
+                    }}
+                  />
+                ): (<DataInputView>
+                  <DataInput
+                    display="inline"
+                    maximumDate={new Date()}
+                    value={date != undefined ? date : new Date()}
+                    mode="date"
+                    onChange={(event, date) => {
+                      handleDatePicker(date);
+                      setDisplayDate(false);
+                    }}
+                    
+                  />
+                </DataInputView>))}
             <EditTextInput
               onPressIn={() => {
                 Keyboard.dismiss();

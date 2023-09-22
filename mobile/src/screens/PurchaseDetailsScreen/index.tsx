@@ -25,7 +25,8 @@ import {
   OutlinedButton,
   OutlinedButtonText,
   ModalView,
-  ModalText
+  ModalText,
+  ModalButtonWrapper
 } from "./styles";
 import { defaultTheme } from "../../global/styles/theme";
 import { PurchaseData, templatePurchaseData } from "../../@types/purchaseData";
@@ -173,7 +174,7 @@ export const PurchaseDetailsScreen: FunctionComponent<OverviewScreenProps> = ({
       <ModalContainer>
         <ModalView>
           <ModalText>Deletar Compra?</ModalText>
-        <ButtonWrapper>
+        <ModalButtonWrapper>
               <OutlinedButton onPress={()=>hideModal()}>
                 <OutlinedButtonText>Cancelar</OutlinedButtonText>
               </OutlinedButton>
@@ -187,7 +188,7 @@ export const PurchaseDetailsScreen: FunctionComponent<OverviewScreenProps> = ({
                   <FillButtonText>Deletar</FillButtonText>
                 )}
               </FillButton>
-            </ButtonWrapper>
+            </ModalButtonWrapper>
         </ModalView>
       </ModalContainer>
     </Modal>

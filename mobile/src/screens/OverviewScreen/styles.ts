@@ -18,20 +18,19 @@ flex-direction: column;
 
 `
 export const Header = styled.View`
+padding:${RFValue(24)}px ${RFValue(16)}px;
 min-height: 30%;
 display: flex;
 flex-direction: row;
-padding:${RFValue(24)}px ${RFValue(16)}px;
 justify-content: space-between;
-
 background-color: ${props => props.theme.colors.green_300};
 `
 export const Logo = styled.Image`
 `
 
 export const HeaderButtonWrapper = styled.View`
+width: 100%;
 height: ${RFValue(48)}px;
-
 display: flex;
 flex-direction: row;
 justify-content: space-between;
@@ -75,6 +74,7 @@ type ScrollViewType = typeof ScrollView
 
 export const InfoBoxScroller: ScrollViewType = styled.ScrollView.attrs({
     horizontal: true,
+
     contentContainerStyle: { paddingHorizontal: 54, },
 
 })`
@@ -85,6 +85,7 @@ width:100%;
 display:flex;
 margin-top:${RFPercentage(-10)}px;
 gap:${RFValue(16)}px;
+
 `
 export const PurchasesListWrapper = styled.View`
 flex-grow: 1;
